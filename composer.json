@@ -1,0 +1,22 @@
+{
+    "name": "tiagoliveirati/clean-arch-php-mango",
+    "autoload": {
+        "psr-4": {
+            "Tiagoliveirati\\CleanArchPhpMango\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tiago Oliveira",
+            "email": "dev.tiago.oliveira@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpro/grumphp": "^1.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpro/grumphp": true
+        }
+    }
+}
