@@ -5,23 +5,27 @@ declare(strict_types=1);
 namespace Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers;
 
 use Error;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpRequest;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpResponse;
 
 class SignUpController
 {
-    public function handle(mixed $httpRequest): mixed
+    public function handle(HttpRequest $httpRequest): HttpResponse
     {
         if (!property_exists($httpRequest->body, 'name')) {
-            return (object) [
-                'statusCode' => 400,
-                'body' => new Error('Missing param: name')
-            ];
+            $httpResponse = new HttpResponse();
+            $httpResponse->statusCode = 400;
+            $httpResponse->body = new Error('Missing param: name');
+
+            return $httpResponse;
         }
 
         if (!property_exists($httpRequest->body, 'email')) {
-            return (object) [
-                'statusCode' => 400,
-                'body' => new Error('Missing param: email')
-            ];
+            $httpResponse = new HttpResponse();
+            $httpResponse->statusCode = 400;
+            $httpResponse->body = new Error('Missing param: email');
+
+            return $httpResponse;
         }
     }
 }
