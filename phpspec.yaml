@@ -1,0 +1,4 @@
+suites:
+    acme_suite:
+        namespace: Tiagoliveirati\CleanArchPhpMango
+        psr4_prefix: Tiagoliveirati\CleanArchPhpMango

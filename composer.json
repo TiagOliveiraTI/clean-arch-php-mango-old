@@ -2,7 +2,8 @@
     "name": "tiagoliveirati/clean-arch-php-mango",
     "autoload": {
         "psr-4": {
-            "Tiagoliveirati\\CleanArchPhpMango\\": "src/"
+            "Tiagoliveirati\\CleanArchPhpMango\\": "src/",
+            "Tiagoliveirati\\CleanArchPhpMango\\Presentation\\Controllers\\": "src/presentation/controllers/"
         }
     },
     "authors": [
@@ -11,8 +12,12 @@
             "email": "dev.tiago.oliveira@gmail.com"
         }
     ],
+    "require": {
+        "php": "8.0.16"
+    },
     "require-dev": {
-        "phpro/grumphp": "^1.8"
+        "phpro/grumphp": "^1.8",
+        "phpspec/phpspec": "^6.2"
     },
     "config": {
         "allow-plugins": {
