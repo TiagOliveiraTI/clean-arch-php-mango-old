@@ -29,6 +29,26 @@ class SignUpControllerSpec extends ObjectBehavior
 
         $httpResponse->statusCode->shouldReturn(400);
 
-        $httpResponse->body->shouldHaveType(new Error('Missing param: name'));
+        $httpResponse->body->getMessage()
+            ->shouldBe((new Error('Missing param: name'))->getMessage());
+    }
+
+    public function it_should_return_400_if_no_email_is_provided()
+    {
+
+        $httpRequest = (object) [
+            'body' => (object) [
+                'name' => 'any_name',
+                'password' => 'any_password',
+                'passwordConfirmation' => 'any_password'
+            ]
+        ];
+
+        $httpResponse = $this->handle($httpRequest);
+
+        $httpResponse->statusCode->shouldReturn(400);
+
+        $httpResponse->body->getMessage()
+            ->shouldBe((new Error('Missing param: email'))->getMessage());
     }
 }
