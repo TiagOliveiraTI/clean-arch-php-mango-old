@@ -2,8 +2,8 @@
 
 namespace spec\Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers;
 
+use Error;
 use PhpSpec\ObjectBehavior;
-use stdClass;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers\SignUpController;
 
 
@@ -28,5 +28,7 @@ class SignUpControllerSpec extends ObjectBehavior
         $httpResponse = $this->handle($httpRequest);
 
         $httpResponse->statusCode->shouldReturn(400);
+
+        $httpResponse->body->shouldHaveType(new Error('Missing param: name'));
     }
 }
