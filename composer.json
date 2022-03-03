@@ -12,12 +12,19 @@
             "email": "dev.tiago.oliveira@gmail.com"
         }
     ],
+    "scripts": {
+        "spec:desc": "./vendor/bin/phpspec desc",
+        "spec:run": "./vendor/bin/phpspec run",
+        "fix": "./vendor/bin/phpcbf --standard=PSR12 src",
+        "cs": "./vendor/bin/phpcs --standard=PSR12 src"
+    },
     "require": {
         "php": "8.0.16"
     },
     "require-dev": {
         "phpro/grumphp": "^1.8",
-        "phpspec/phpspec": "^6.2"
+        "phpspec/phpspec": "^6.2",
+        "squizlabs/php_codesniffer": "*"
     },
     "config": {
         "allow-plugins": {
