@@ -5,7 +5,8 @@ namespace spec\Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers;
 use Error;
 use PhpSpec\ObjectBehavior;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers\SignUpController;
-
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpRequest;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpResponse;
 
 class SignUpControllerSpec extends ObjectBehavior
 {
@@ -17,13 +18,13 @@ class SignUpControllerSpec extends ObjectBehavior
     public function it_should_return_400_if_no_name_is_provided()
     {
 
-        $httpRequest = (object) [
-            'body' => (object) [
+        $httpRequest = new HttpRequest(
+            (object) [
                 'email' => 'any_email@mail.com',
                 'password' => 'any_password',
                 'passwordConfirmation' => 'any_password'
             ]
-        ];
+        );
 
         $httpResponse = $this->handle($httpRequest);
 
@@ -35,14 +36,13 @@ class SignUpControllerSpec extends ObjectBehavior
 
     public function it_should_return_400_if_no_email_is_provided()
     {
-
-        $httpRequest = (object) [
-            'body' => (object) [
+        $httpRequest = new HttpRequest(
+            (object) [
                 'name' => 'any_name',
                 'password' => 'any_password',
                 'passwordConfirmation' => 'any_password'
             ]
-        ];
+        );
 
         $httpResponse = $this->handle($httpRequest);
 
