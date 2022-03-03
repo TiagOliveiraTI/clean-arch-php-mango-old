@@ -1,10 +1,16 @@
 grumphp:
     tasks:
       phpcs:
-          standard: PSR12
-          ignore_patterns: [./vendor/*]
-          whitelist_patterns: [/^src\/(.*)/]
-          encoding: UTF-8
+        standard: PSR12
+        ignore_patterns: [./vendor/*]
+        whitelist_patterns: [/^src\/(.*)/]
+        encoding: UTF-8
+
+      phpspec:
+        config_file: "phpspec.yaml"
+        format: ~
+        stop_on_failure: false
+        verbose: false
 
       git_commit_message:
         allow_empty_message: false
