@@ -10,9 +10,18 @@ class SignUpController
 {
     public function handle(mixed $httpRequest): mixed
     {
-        return (object) [
-            'statusCode' => 400,
-            'body' => new Error('Missing param: name')
-        ];
+        if (!property_exists($httpRequest->body, 'name')) {
+            return (object) [
+                'statusCode' => 400,
+                'body' => new Error('Missing param: name')
+            ];
+        }
+
+        if (!property_exists($httpRequest->body, 'email')) {
+            return (object) [
+                'statusCode' => 400,
+                'body' => new Error('Missing param: email')
+            ];
+        }
     }
 }
