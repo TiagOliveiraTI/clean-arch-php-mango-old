@@ -68,4 +68,22 @@ class SignUpControllerSpec extends ObjectBehavior
         $httpResponse->body->getMessage()
             ->shouldBe((new MissingParamError('password'))->getMessage());
     }
+
+    public function it_should_return_400_if_no_password_confirmation_is_provided()
+    {
+        $httpRequest = new HttpRequest(
+            (object) [
+                'name' => 'any_name',
+                'email' => 'any_email@mail.com',
+                'password' => 'any_password'
+            ]
+        );
+
+        $httpResponse = $this->handle($httpRequest);
+
+        $httpResponse->statusCode->shouldReturn(400);
+
+        $httpResponse->body->getMessage()
+            ->shouldBe((new MissingParamError('passwordConfirmation'))->getMessage());
+    }
 }
