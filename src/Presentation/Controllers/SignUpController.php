@@ -15,12 +15,12 @@ class SignUpController
 
     public function handle(HttpRequest $httpRequest): HttpResponse
     {
-        if (!property_exists($httpRequest->body, 'name')) {
-            return $this->badRequest(new MissingParamError("name"));
-        }
+        $requestFields = ["name", "email"];
 
-        if (!property_exists($httpRequest->body, 'email')) {
-            return $this->badRequest(new MissingParamError("email"));
+        foreach ($requestFields as $field) {
+            if (!property_exists($httpRequest->body, $field)) {
+                return $this->badRequest(new MissingParamError($field));
+            }
         }
     }
 }
