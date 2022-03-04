@@ -35,7 +35,7 @@ grumphp:
             subject_pattern: >-
                 ([a-zA-Z-0-9-_ #@'\/\"]+)
         max_body_width: 72
-        max_subject_width: 80
+        max_subject_width: 90
         case_insensitive: true
         multiline: true
         additional_modifiers: ''

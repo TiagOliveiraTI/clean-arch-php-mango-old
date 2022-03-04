@@ -15,7 +15,7 @@ class SignUpController
 
     public function handle(HttpRequest $httpRequest): HttpResponse
     {
-        $requestFields = ["name", "email", "password"];
+        $requestFields = ["name", "email", "password", "passwordConfirmation"];
 
         foreach ($requestFields as $field) {
             if (!property_exists($httpRequest->body, $field)) {
