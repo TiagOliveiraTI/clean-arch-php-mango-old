@@ -2,11 +2,10 @@
 
 namespace spec\Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers;
 
-use Error;
 use PhpSpec\ObjectBehavior;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers\SignUpController;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\MissingParamError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpRequest;
-use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpResponse;
 
 class SignUpControllerSpec extends ObjectBehavior
 {
@@ -31,7 +30,7 @@ class SignUpControllerSpec extends ObjectBehavior
         $httpResponse->statusCode->shouldReturn(400);
 
         $httpResponse->body->getMessage()
-            ->shouldBe((new Error('Missing param: name'))->getMessage());
+            ->shouldBe((new MissingParamError('name'))->getMessage());
     }
 
     public function it_should_return_400_if_no_email_is_provided()
@@ -49,6 +48,6 @@ class SignUpControllerSpec extends ObjectBehavior
         $httpResponse->statusCode->shouldReturn(400);
 
         $httpResponse->body->getMessage()
-            ->shouldBe((new Error('Missing param: email'))->getMessage());
+            ->shouldBe((new MissingParamError('email'))->getMessage());
     }
 }

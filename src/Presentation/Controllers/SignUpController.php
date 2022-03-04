@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers;
 
-use Error;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\MissingParamError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpRequest;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpResponse;
 
@@ -15,7 +15,7 @@ class SignUpController
         if (!property_exists($httpRequest->body, 'name')) {
             $httpResponse = new HttpResponse();
             $httpResponse->statusCode = 400;
-            $httpResponse->body = new Error('Missing param: name');
+            $httpResponse->body = new MissingParamError('name');
 
             return $httpResponse;
         }
@@ -23,7 +23,7 @@ class SignUpController
         if (!property_exists($httpRequest->body, 'email')) {
             $httpResponse = new HttpResponse();
             $httpResponse->statusCode = 400;
-            $httpResponse->body = new Error('Missing param: email');
+            $httpResponse->body = new MissingParamError('email');
 
             return $httpResponse;
         }
