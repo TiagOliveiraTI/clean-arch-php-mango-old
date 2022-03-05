@@ -2,3 +2,5 @@ suites:
     default:
         namespace: Tiagoliveirati\CleanArchPhpMango
         psr4_prefix: Tiagoliveirati\CleanArchPhpMango
+
+formatter.name: pretty

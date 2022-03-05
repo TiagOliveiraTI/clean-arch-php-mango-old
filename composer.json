@@ -23,7 +23,7 @@
     },
     "require-dev": {
         "phpro/grumphp": "^1.8",
-        "phpspec/phpspec": "^6.2",
+        "phpspec/phpspec": "^7.1",
         "squizlabs/php_codesniffer": "*"
     },
     "config": {
