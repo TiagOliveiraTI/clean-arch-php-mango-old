@@ -3,16 +3,26 @@
 namespace spec\Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers;
 
 use PhpSpec\ObjectBehavior;
-use Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers\SignUpController;
-use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\MissingParamError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpRequest;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\InvalidParamError;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\MissingParamError;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\EmailValidator;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Helpers\EmailValidatorStub;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers\SignUpController;
 
 class SignUpControllerSpec extends ObjectBehavior
 {
+    public function let()
+    {
+        $emailValidatorStub = new EmailValidatorStub();
+        $this->beConstructedWith($emailValidatorStub);
+    }
+
     public function it_is_initializable()
     {
         $this->shouldHaveType(SignUpController::class);
     }
+
 
     public function it_should_return_400_if_no_name_is_provided()
     {
@@ -85,5 +95,28 @@ class SignUpControllerSpec extends ObjectBehavior
 
         $httpResponse->body->getMessage()
             ->shouldBe((new MissingParamError('passwordConfirmation'))->getMessage());
+    }
+
+    public function it_should_return_400_if_an_invalid_email_is_provided(EmailValidatorStub $emailValidatorStub)
+    {
+        $httpRequest = new HttpRequest(
+            (object) [
+                'name' => 'any_name',
+                'email' => 'invalid_email@mail.com',
+                'password' => 'any_password',
+                'passwordConfirmation' => 'any_password'
+            ]
+        );
+
+        $this->beConstructedWith($emailValidatorStub);
+        $emailValidatorStub->isValid($httpRequest->body->email);
+
+        $httpResponse = $this->handle($httpRequest);
+
+        $httpResponse->statusCode->shouldReturn(400);
+
+        $httpResponse->body->getMessage()
+            ->shouldBe((new InvalidParamError('email'))->getMessage());
+
     }
 }
