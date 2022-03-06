@@ -15,7 +15,7 @@ class SignUpControllerSpec extends ObjectBehavior
     public function let()
     {
         $emailValidatorStub = new EmailValidatorStub();
-        $this->beConstructedWith($emailValidatorStub);
+        $this->beConstructedWith($emailValidatorStub, true);
     }
 
     public function it_is_initializable()
@@ -97,7 +97,7 @@ class SignUpControllerSpec extends ObjectBehavior
             ->shouldBe((new MissingParamError('passwordConfirmation'))->getMessage());
     }
 
-    public function it_should_return_400_if_an_invalid_email_is_provided(EmailValidatorStub $emailValidatorStub)
+    public function it_should_return_400_if_an_invalid_email_is_provided($emailValidatorStub)
     {
         $httpRequest = new HttpRequest(
             (object) [
@@ -108,7 +108,8 @@ class SignUpControllerSpec extends ObjectBehavior
             ]
         );
 
-        $this->beConstructedWith($emailValidatorStub);
+        $emailValidatorStub->beADoubleOf(EmailValidatorStub::class);
+        $this->beConstructedWith($emailValidatorStub, false);
         $emailValidatorStub->isValid($httpRequest->body->email);
 
         $httpResponse = $this->handle($httpRequest);
@@ -117,6 +118,30 @@ class SignUpControllerSpec extends ObjectBehavior
 
         $httpResponse->body->getMessage()
             ->shouldBe((new InvalidParamError('email'))->getMessage());
+
+    }
+
+    public function it_should_call_EmailValidator_with_correct_email($emailValidatorStub)
+    {
+        $httpRequest = new HttpRequest(
+            (object) [
+                'name' => 'any_name',
+                'email' => 'any_email@mail.com',
+                'password' => 'any_password',
+                'passwordConfirmation' => 'any_password'
+            ]
+        );
+
+        $emailValidatorStub->beADoubleOf(EmailValidatorStub::class);
+        $emailValidatorStub->isValid()->willReturn(false);
+
+        $this->beConstructedWith($emailValidatorStub);
+        $isValidStub = $emailValidatorStub->isValid($httpRequest->body->email);
+
+        $this->handle($httpRequest);
+
+        $isValidStub
+            ->shouldHaveBeenCalled();
 
     }
 }
