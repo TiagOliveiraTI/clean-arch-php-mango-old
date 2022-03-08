@@ -16,7 +16,8 @@
         "spec:desc": "./vendor/bin/phpspec desc",
         "spec:run": "./vendor/bin/phpspec run",
         "fix": "./vendor/bin/phpcbf --standard=PSR12 src",
-        "cs": "./vendor/bin/phpcs --standard=PSR12 src"
+        "cs": "./vendor/bin/phpcs --standard=PSR12 src",
+        "test": "./vendor/bin/pest --testdox"
     },
     "require": {
         "php": "8.0.16"
@@ -24,11 +25,14 @@
     "require-dev": {
         "phpro/grumphp": "^1.8",
         "phpspec/phpspec": "^7.1",
-        "squizlabs/php_codesniffer": "*"
+        "squizlabs/php_codesniffer": "*",
+        "pestphp/pest": "^1.21",
+        "pestphp/pest-plugin-mock": "^1.0"
     },
     "config": {
         "allow-plugins": {
-            "phpro/grumphp": true
+            "phpro/grumphp": true,
+            "pestphp/pest-plugin": true
         }
     }
 }
