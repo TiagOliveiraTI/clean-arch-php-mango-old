@@ -17,7 +17,8 @@
         "spec:run": "./vendor/bin/phpspec run",
         "fix": "./vendor/bin/phpcbf --standard=PSR12 src",
         "cs": "./vendor/bin/phpcs --standard=PSR12 src",
-        "test": "./vendor/bin/pest --testdox"
+        "test": "./vendor/bin/pest --testdox",
+        "test:watch": "./vendor/bin/phpunit-watcher watch --testdox"
     },
     "require": {
         "php": "8.0.16"
@@ -27,7 +28,8 @@
         "phpspec/phpspec": "^7.1",
         "squizlabs/php_codesniffer": "*",
         "pestphp/pest": "^1.21",
-        "pestphp/pest-plugin-mock": "^1.0"
+        "pestphp/pest-plugin-mock": "^1.0",
+        "spatie/phpunit-watcher": "^1.23"
     },
     "config": {
         "allow-plugins": {

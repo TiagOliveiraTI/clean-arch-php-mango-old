@@ -1,0 +1,10 @@
+phpunit:
+  binaryPath: vendor/bin/pest
+  ignoreDotFiles: true  
+  ignoreVCS: true
+  ignoreVCSIgnored: false
+watch:
+  directories:
+    - src
+    - tests
+  fileMask: '*.php'
