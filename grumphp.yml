@@ -6,11 +6,11 @@ grumphp:
         whitelist_patterns: [/^src\/(.*)/]
         encoding: UTF-8
 
-      phpspec:
-        config_file: "phpspec.yaml"
-        format: ~
-        stop_on_failure: false
-        verbose: false
+      pest:
+        config_file: "phpunit.xml"
+        testsuite: ~
+        group: []
+        always_execute: true
 
       git_commit_message:
         allow_empty_message: false
