@@ -18,4 +18,13 @@ trait HttpHelper
 
         return $httpResponse;
     }
+
+    public function serverError(Error $error): HttpResponse
+    {
+        $httpResponse = new HttpResponse();
+        $httpResponse->statusCode = 500;
+        $httpResponse->body = $error;
+
+        return $httpResponse;
+    }
 }

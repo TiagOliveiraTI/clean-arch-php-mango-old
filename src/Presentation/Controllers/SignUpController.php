@@ -10,6 +10,7 @@ use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpRequest;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpResponse;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\InvalidParamError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\MissingParamError;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\ServerError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\EmailValidator;
 
 class SignUpController implements Controller
@@ -22,18 +23,22 @@ class SignUpController implements Controller
 
     public function handle(HttpRequest $httpRequest): HttpResponse
     {
-        $requestFields = ["name", "email", "password", "passwordConfirmation"];
+        try {
+            $requestFields = ["name", "email", "password", "passwordConfirmation"];
 
-        foreach ($requestFields as $field) {
-            if (!property_exists($httpRequest->body, $field)) {
-                return $this->badRequest(new MissingParamError($field));
+            foreach ($requestFields as $field) {
+                if (!property_exists($httpRequest->body, $field)) {
+                    return $this->badRequest(new MissingParamError($field));
+                }
             }
-        }
 
-        $isValid = $this->emailValidator->isValid($httpRequest->body->email);
+            $isValid = $this->emailValidator->isValid($httpRequest->body->email);
 
-        if (!$isValid) {
-            return $this->badRequest(new InvalidParamError('email'));
+            if (!$isValid) {
+                return $this->badRequest(new InvalidParamError('email'));
+            }
+        } catch (\Throwable $th) {
+            return $this->serverError(new ServerError());
         }
     }
 }
