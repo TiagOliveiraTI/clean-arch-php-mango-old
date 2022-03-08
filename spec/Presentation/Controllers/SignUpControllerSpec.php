@@ -2,13 +2,16 @@
 
 namespace spec\Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers;
 
+use Error;
 use PhpSpec\ObjectBehavior;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\ServerError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpRequest;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\InvalidParamError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\MissingParamError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\EmailValidator;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Helpers\EmailValidatorStub;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers\SignUpController;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Helpers\EmailValidatorThrowStub;
 
 class SignUpControllerSpec extends ObjectBehavior
 {
@@ -143,5 +146,24 @@ class SignUpControllerSpec extends ObjectBehavior
         $isValidStub
             ->shouldHaveBeenCalled();
 
+    }
+
+    public function it_should_return_500_if_EmailValidator_throws()
+    {
+        $httpRequest = new HttpRequest(
+            (object) [
+                'name' => 'any_name',
+                'email' => 'any_email@mail.com',
+                'password' => 'any_password',
+                'passwordConfirmation' => 'any_password'
+            ]
+        );
+        $emailValidatorThrowStub = new EmailValidatorThrowStub();
+
+        $this->beConstructedWith($emailValidatorThrowStub);
+
+        $this->shouldThrow('\InvalidArgumentException')->duringInstantiation();
+
+    
     }
 }
