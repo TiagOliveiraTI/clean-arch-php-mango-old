@@ -6,6 +6,7 @@ namespace Tiagoliveirati\CleanArchPhpMango\Presentation\Helpers;
 
 use Error;
 use stdClass;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\ServerError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpResponse;
 
 trait HttpHelper
@@ -19,11 +20,11 @@ trait HttpHelper
         return $httpResponse;
     }
 
-    public function serverError(Error $error): HttpResponse
+    public function serverError(): HttpResponse
     {
         $httpResponse = new HttpResponse();
         $httpResponse->statusCode = 500;
-        $httpResponse->body = $error;
+        $httpResponse->body = new ServerError();
 
         return $httpResponse;
     }

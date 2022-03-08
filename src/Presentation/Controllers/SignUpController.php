@@ -38,7 +38,7 @@ class SignUpController implements Controller
                 return $this->badRequest(new InvalidParamError('email'));
             }
         } catch (\Throwable $th) {
-            return $this->serverError(new ServerError());
+            return $this->serverError();
         }
     }
 }
