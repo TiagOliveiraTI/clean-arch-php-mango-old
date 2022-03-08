@@ -7,6 +7,7 @@ use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\MissingParamError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\EmailValidator;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Helpers\EmailValidatorStub;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers\SignUpController;
+use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\ServerError;
 
 class SutTypes
 {
@@ -150,4 +151,32 @@ test('should call EmailValidator with a correct email', function () {
     $sut->handle($httpRequest);
 
    expect($isValidSpy)->shouldReceive($httpRequest->body->email);
+});
+
+test('should return 500 if EmailValidator throws', function () {
+    extract((array) makeSut());
+
+    $httpRequest = new HttpRequest(
+        (object) [
+            'name' => 'any_name',
+            'email' => 'any_email@mail.com',
+            'password' => 'any_password',
+            'passwordConfirmation' => 'any_password'
+        ]
+    );
+
+    $isValidSpy = mock(EmailValidatorStub::class)->expect(
+        isValid: fn ($name) => throw new Error()
+    );
+    
+    $isValidSpy
+        ->shouldReceive('isValid')
+        ->with($httpRequest->body->email);
+
+    $sut = new SignUpController($isValidSpy);
+    $httpResponse = $sut->handle($httpRequest);
+
+    expect($httpResponse->statusCode)->toBe(500);
+    expect($httpResponse->body)
+        ->toThrow(Error::class);
 });
