@@ -1,13 +1,10 @@
 <?php
 
-use Mockery\Mock;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpRequest;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\InvalidParamError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\MissingParamError;
-use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\EmailValidator;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Helpers\EmailValidatorStub;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Controllers\SignUpController;
-use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\ServerError;
 
 class SutTypes
 {
@@ -100,6 +97,27 @@ test('should return 400 if no passwordConfirmation is provided', function () {
     expect($httpResponse->statusCode)->toBe(400);
     expect($httpResponse->body->getMessage())
         ->toEqual((new MissingParamError('passwordConfirmation'))
+        ->getMessage());
+});
+
+test('should return 400 if passwordConfirmation fails', function () {
+
+    extract((array) makeSut());
+
+    $httpRequest = new HttpRequest(
+        (object) [
+            'name' => 'any_name',
+            'email' => 'any_email@mail.com',
+            'password' => 'any_password',
+            'passwordConfirmation' => 'invalid_password',
+        ]
+    );
+
+    $httpResponse = $sut->handle($httpRequest);
+
+    expect($httpResponse->statusCode)->toBe(400);
+    expect($httpResponse->body->getMessage())
+        ->toEqual((new InvalidParamError('passwordConfirmation'))
         ->getMessage());
 });
 
