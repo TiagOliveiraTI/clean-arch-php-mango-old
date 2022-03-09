@@ -31,11 +31,13 @@ class SignUpController implements Controller
                 }
             }
 
-            if ($httpRequest->body->password !== $httpRequest->body->passwordConfirmation) {
+            extract((array) $httpRequest->body);
+
+            if ($password !== $passwordConfirmation) {
                 return $this->badRequest(new InvalidParamError('passwordConfirmation'));
             }
 
-            $isValid = $this->emailValidator->isValid($httpRequest->body->email);
+            $isValid = $this->emailValidator->isValid($email);
 
             if (!$isValid) {
                 return $this->badRequest(new InvalidParamError('email'));
