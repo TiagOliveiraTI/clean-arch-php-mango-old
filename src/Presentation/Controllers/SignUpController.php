@@ -10,7 +10,6 @@ use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpRequest;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\HttpResponse;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\InvalidParamError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\MissingParamError;
-use Tiagoliveirati\CleanArchPhpMango\Presentation\Errors\ServerError;
 use Tiagoliveirati\CleanArchPhpMango\Presentation\Protocols\EmailValidator;
 
 class SignUpController implements Controller
@@ -30,6 +29,10 @@ class SignUpController implements Controller
                 if (!property_exists($httpRequest->body, $field)) {
                     return $this->badRequest(new MissingParamError($field));
                 }
+            }
+
+            if ($httpRequest->body->password !== $httpRequest->body->passwordConfirmation) {
+                return $this->badRequest(new InvalidParamError('passwordConfirmation'));
             }
 
             $isValid = $this->emailValidator->isValid($httpRequest->body->email);
