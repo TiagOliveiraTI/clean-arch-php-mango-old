@@ -133,7 +133,7 @@ test('should return 400 if an invalid email is provided', function () {
         ]
     );
 
-    $mock = \Mockery::mock(EmailValidatorStub::class);
+    $mock = \Mockery::mock($emailValidatorStub);
     
     $mock
         ->shouldReceive('isValid')
@@ -161,7 +161,7 @@ test('should call EmailValidator with a correct email', function () {
         ]
     );
 
-    $isValidSpy = mock(EmailValidatorStub::class)->expect(
+    $isValidSpy = mock($emailValidatorStub)->expect(
         isValid: fn ($name) => false
     );
 
@@ -183,7 +183,7 @@ test('should return 500 if EmailValidator throws', function () {
         ]
     );
 
-    $isValidSpy = mock(EmailValidatorStub::class)->expect(
+    $isValidSpy = mock($emailValidatorStub)->expect(
         isValid: fn ($name) => throw new Error()
     );
     
